@@ -42,7 +42,7 @@ func main() {
 				Description: "Could not read file",
 				Location: &engine.Location{
 					Path: path,
-					Lines: &engine.Position{
+					Lines: &engine.LinesOnlyPosition{
 						Begin: 1,
 						End:   1,
 					},
@@ -97,7 +97,7 @@ func codeClimateLocation(l *lint.Problem, path string, rootPath string) *engine.
 
 	return &engine.Location{
 		Path: strings.SplitAfter(path, rootPath)[1],
-		Lines: &engine.Position{
+		Lines: &engine.LinesOnlyPosition{
 			Begin: position.Line,
 			End:   position.Line,
 		},
