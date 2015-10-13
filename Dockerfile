@@ -1,7 +1,6 @@
-FROM codeclimate/alpine-ruby:b36
+FROM alpine:3.2
 
-WORKDIR /usr/src/app
-COPY bin/ /usr/src/app
+ADD build/codeclimate-golint /usr/src/app/
 
 RUN adduser -u 9000 -D app
 USER app

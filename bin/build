@@ -1,0 +1,18 @@
+#!/bin/bash
+set -ex
+
+IMAGE="$1"
+: "${IMAGE:=codeclimate/codeclimate-golint}"
+
+DIR=$( cd "$( dirname "${0}" )" && pwd )
+SRC_ROOT=$( cd "$DIR/.." && pwd )
+cd "$SRC_ROOT"
+
+BUILD_SCRIPT="cd /src && "\
+"go get -t -d -v ./... && "\
+"rm -rf build && mkdir build && "\
+"go build -o build/codeclimate-golint ."
+
+docker run -v "$SRC_ROOT:/src" yunspace/alpine-golang /bin/sh -c "$BUILD_SCRIPT"
+
+docker build -t "$IMAGE" .
