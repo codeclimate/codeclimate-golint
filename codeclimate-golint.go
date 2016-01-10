@@ -87,7 +87,7 @@ func lintFile(fullPath string, relativePath string) {
 			Type:              "issue",
 			Check:             codeClimateCheckName(&problem),
 			Description:       (&problem).Text,
-			RemediationPoints: 500,
+			RemediationPoints: 50000,
 			Categories:        []string{"Style"},
 			Location:          codeClimateLocation(&problem, relativePath),
 		}
