@@ -7,8 +7,11 @@ import (
 	"io/ioutil"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 )
+
+const defaultMinConfidence = 0.8
 
 func main() {
 	rootPath := "/code/"
@@ -25,6 +28,7 @@ func main() {
 	}
 
 	excludedFiles := getExcludedFiles(config)
+	minConfidence := getMinConfidence(config)
 
 	for _, path := range analysisFiles {
 		relativePath := strings.SplitAfter(path, rootPath)[1]
@@ -32,7 +36,7 @@ func main() {
 			continue
 		}
 
-		lintFile(path, relativePath)
+		lintFile(path, relativePath, minConfidence)
 	}
 }
 
@@ -52,7 +56,7 @@ func isFileExcluded(filePath string, excludedFiles []string) bool {
 	return i < len(excludedFiles) && excludedFiles[i] == filePath
 }
 
-func lintFile(fullPath string, relativePath string) {
+func lintFile(fullPath string, relativePath string, minConfidence float64) {
 	linter := new(lint.Linter)
 
 	code, err := ioutil.ReadFile(fullPath)
@@ -83,6 +87,10 @@ func lintFile(fullPath string, relativePath string) {
 	}
 
 	for _, problem := range problems {
+		if problem.Confidence < minConfidence {
+			continue
+		}
+
 		issue := &engine.Issue{
 			Type:              "issue",
 			Check:             codeClimateCheckName(&problem),
@@ -120,4 +128,16 @@ func codeClimateLocation(l *lint.Problem, relativePath string) *engine.Location 
 			End:   position.Line,
 		},
 	}
+}
+
+func getMinConfidence(config engine.Config) float64 {
+	if subConfig, ok := config["config"].(map[string]interface{}); ok {
+		if minConfidence, ok := subConfig["min_confidence"].(string); ok {
+			val, err := strconv.ParseFloat(minConfidence, 64)
+			if err == nil {
+				return val
+			}
+		}
+	}
+	return defaultMinConfidence
 }
