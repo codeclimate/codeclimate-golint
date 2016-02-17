@@ -6,7 +6,6 @@ import (
 	"github.com/golang/lint"
 	"io/ioutil"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -15,11 +14,6 @@ const defaultMinConfidence = 0.8
 
 func main() {
 	rootPath := "/code/"
-	analysisFiles, err := engine.GoFileWalk(rootPath)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error initializing: %s", err)
-		os.Exit(1)
-	}
 
 	config, err := engine.LoadConfig()
 	if err != nil {
@@ -27,33 +21,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	excludedFiles := getExcludedFiles(config)
+	analysisFiles, err := engine.GoFileWalk(rootPath, engine.IncludePaths(rootPath, config))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error initializing: %s", err)
+		os.Exit(1)
+	}
+
 	minConfidence := getMinConfidence(config)
 
 	for _, path := range analysisFiles {
 		relativePath := strings.SplitAfter(path, rootPath)[1]
-		if isFileExcluded(relativePath, excludedFiles) {
-			continue
-		}
 
 		lintFile(path, relativePath, minConfidence)
 	}
-}
-
-func getExcludedFiles(config engine.Config) []string {
-	excludedFiles := []string{}
-	if config["exclude_paths"] != nil {
-		for _, file := range config["exclude_paths"].([]interface{}) {
-			excludedFiles = append(excludedFiles, file.(string))
-		}
-		sort.Strings(excludedFiles)
-	}
-	return excludedFiles
-}
-
-func isFileExcluded(filePath string, excludedFiles []string) bool {
-	i := sort.SearchStrings(excludedFiles, filePath)
-	return i < len(excludedFiles) && excludedFiles[i] == filePath
 }
 
 func lintFile(fullPath string, relativePath string, minConfidence float64) {
