@@ -13,6 +13,6 @@ BUILD_SCRIPT="cd /src && "\
 "rm -rf build && mkdir build && "\
 "go build -o build/codeclimate-golint ."
 
-docker run -v "$SRC_ROOT:/src" yunspace/alpine-golang /bin/sh -c "$BUILD_SCRIPT"
+docker run -v "$SRC_ROOT:/src" golang:latest /bin/sh -c "$BUILD_SCRIPT"
 
 docker build -t "$IMAGE" .
