@@ -54,7 +54,7 @@ func lintFile(fullPath string, relativePath string, minConfidence float64) {
 		engine.PrintWarning(warning)
 	}
 
-	problems, err := linter.Lint("", code)
+	problems, err := linter.Lint(fullPath, code)
 	if err != nil {
 		warningDesc := fmt.Sprintf("Could not lint file (%s)", err)
 		warning := &engine.Warning{
