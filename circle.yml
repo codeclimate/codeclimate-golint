@@ -12,6 +12,7 @@ dependencies:
 test:
   override:
     - make image
+    - docker tag codeclimate/codeclimate-golint "$PRIVATE_REGISTRY/$CIRCLE_PROJECT_REPONAME:b$CIRCLE_BUILD_NUM"
 
 deployment:
   registry:
