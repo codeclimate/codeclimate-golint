@@ -5,9 +5,13 @@ machine:
     CLOUDSDK_CORE_DISABLE_PROMPTS: 1
     PRIVATE_REGISTRY: us.gcr.io/code_climate
 
+dependencies:
+  override:
+    - echo "Not applicable"
+
 test:
   override:
-    - ./bin/build $PRIVATE_REGISTRY/$CIRCLE_PROJECT_REPONAME:b$CIRCLE_BUILD_NUM
+    - make image
 
 deployment:
   registry:
