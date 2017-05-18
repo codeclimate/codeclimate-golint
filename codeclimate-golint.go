@@ -41,29 +41,16 @@ func lintFile(fullPath string, relativePath string, minConfidence float64) {
 
 	code, err := ioutil.ReadFile(fullPath)
 	if err != nil {
-		warning := &engine.Warning{
-			Description: "Could not read file",
-			Location: &engine.Location{
-				Path: fullPath,
-				Lines: &engine.LinesOnlyPosition{
-					Begin: 1,
-					End:   1,
-				},
-			},
-		}
-		engine.PrintWarning(warning)
+		fmt.Fprintf(os.Stderr, "Could not read file: %v\n", fullPath)
+		fmt.Fprintf(os.Stderr, "Error %v\n", err)
+		os.Exit(1)
 	}
 
 	problems, err := linter.Lint(fullPath, code)
 	if err != nil {
-		warningDesc := fmt.Sprintf("Could not lint file (%s)", err)
-		warning := &engine.Warning{
-			Description: warningDesc,
-			Location: &engine.Location{
-				Path: fullPath,
-			},
-		}
-		engine.PrintWarning(warning)
+		fmt.Fprintf(os.Stderr, "Could not lint file: %v\n", fullPath)
+		fmt.Fprintf(os.Stderr, "Error %v\n", err)
+		os.Exit(1)
 	}
 
 	for _, problem := range problems {
