@@ -4,6 +4,7 @@ MAINTAINER Code Climate <hello@codeclimate.com>
 
 WORKDIR /usr/src/app
 COPY codeclimate-golint.go /usr/src/app/codeclimate-golint.go
+COPY DATE_BUILT /usr/src/app/DATE_BUILT
 
 RUN apk --update add go git && \
   export GOPATH=/tmp/go GOBIN=/usr/local/bin && \
