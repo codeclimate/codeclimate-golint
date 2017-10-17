@@ -31,6 +31,12 @@ engines:
 docker build -t codeclimate/codeclimate-golint .
 ```
 
+### Updating
+
+`golint` doesn't version releases, so in order to get the latest version & force
+a new docker image build, we have a `DATE_BUILT` file: to force an update of
+golint, run `date > DATE_BUILT` locally & then rebuild the docker image.
+
 ### Need help?
 
 For help with Golint, [check out their documentation](https://github.com/golang/lint).
