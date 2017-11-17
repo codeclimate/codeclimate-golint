@@ -7,8 +7,14 @@ Golint is a linter for Go code. Where as [Gofmt](https://www.github.com/codeclim
 ### Installation
 
 1. If you haven't already, [install the Code Climate CLI](https://github.com/codeclimate/codeclimate).
-2. Run `codeclimate engines:enable golint`. This command both installs the engine and enables it in your `.codeclimate.yml` file.
-3. You're ready to analyze! Browse into your project's folder and run `codeclimate analyze`.
+2. Add the following to yout Code Climate config:
+  ```yaml
+  plugins:
+    golint:
+      enabled: true
+  ```
+3. Run `codeclimate engines:install`
+4. You're ready to analyze! Browse into your project's folder and run `codeclimate analyze`.
 
 ### Configuration
 
@@ -18,7 +24,7 @@ the threshold in order to be reported. The default value is `0.8`, the same as
 `golint`: you can configure your own threshold in your `.codeclimate.yml`:
 
 ```yaml
-engines:
+plugins:
   golint:
     enabled: true
     config:
