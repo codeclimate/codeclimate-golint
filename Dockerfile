@@ -1,23 +1,24 @@
-FROM alpine:3.4
+FROM alpine:edge
 
-MAINTAINER Code Climate <hello@codeclimate.com>
-
-WORKDIR /usr/src/app
-COPY codeclimate-golint.go /usr/src/app/codeclimate-golint.go
-COPY DATE_BUILT /usr/src/app/DATE_BUILT
-
-RUN apk --update add go git && \
-  export GOPATH=/tmp/go GOBIN=/usr/local/bin && \
-  go get -d . && \
-  go install codeclimate-golint.go && \
-  apk del go git && \
-  rm -rf "$GOPATH" && \
-  rm /var/cache/apk/*
-
-WORKDIR /code
-VOLUME /code
+LABEL maintainer="Code Climate <hello@codeclimate.com>"
 
 RUN adduser -u 9000 -D app
+
+WORKDIR /usr/src/app
+
+COPY engine.json /engine.json
+COPY codeclimate-golint.go /usr/src/app/codeclimate-golint.go
+
+RUN apk add --no-cache --virtual .dev-deps musl-dev go git && \
+  export GOPATH=/tmp/go GOBIN=/usr/local/bin && \
+  go get -d -t -v . && \
+  export LIBRARY_PATH=/usr/lib32:$LIBRARY_PATH && \
+  go install codeclimate-golint.go && \
+  apk del .dev-deps && \
+  rm -rf "$GOPATH"
+
 USER app
+WORKDIR /code
+VOLUME /code
 
 CMD ["/usr/local/bin/codeclimate-golint"]

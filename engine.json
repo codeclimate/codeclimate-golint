@@ -1,0 +1,13 @@
+{
+  "name": "golint",
+  "description": "Golint is a linter for Go source code.",
+  "maintainer": {
+    "name": "Code Climate",
+    "email": "hello@codeclimate.com"
+  },
+  "languages": [
+    "Go"
+  ],
+  "version": "1.0.0/6aaf7c34af0f4c36a57e0c429bace4d706d8e931",
+  "spec_version": "0.3.1"
+}
