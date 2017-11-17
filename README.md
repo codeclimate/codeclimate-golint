@@ -28,14 +28,20 @@ engines:
 ### Building
 
 ```console
-docker build -t codeclimate/codeclimate-golint .
+make image
 ```
 
 ### Updating
 
 `golint` doesn't version releases, so in order to get the latest version & force
-a new docker image build, we have a `DATE_BUILT` file: to force an update of
-golint, run `date > DATE_BUILT` locally & then rebuild the docker image.
+a new docker image build, we have to update the `engine.json` file.
+
+```console
+make update
+```
+
+This will update the engine version with the latest `golint` version. After that
+rebuild the image as usually.
 
 ### Need help?
 
