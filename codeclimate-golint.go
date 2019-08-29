@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/codeclimate/cc-engine-go/engine"
-	"github.com/golang/lint"
+	"golang.org/x/lint"
 	"io/ioutil"
 	"os"
 	"strconv"
