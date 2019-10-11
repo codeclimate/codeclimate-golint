@@ -37,18 +37,6 @@ plugins:
 make image
 ```
 
-### Updating
-
-`golint` doesn't version releases, so in order to get the latest version & force
-a new docker image build, we have to update the `engine.json` file.
-
-```console
-make update
-```
-
-This will update the engine version with the latest `golint` version. After that
-rebuild the image as usually.
-
 ### Need help?
 
 For help with Golint, [check out their documentation](https://github.com/golang/lint).
