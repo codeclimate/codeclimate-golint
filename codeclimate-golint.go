@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/codeclimate/cc-engine-go/engine"
-	"github.com/golang/lint"
 	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/codeclimate/cc-engine-go/engine"
+	"golang.org/x/lint"
 )
 
 const defaultMinConfidence = 0.8
