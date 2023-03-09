@@ -32,13 +32,12 @@ jobs:
               circleci step halt
             fi
       - run: make image
-      - run: echo "$GCR_JSON_KEY" | docker login -u _json_key --password-stdin us.gcr.io
+      - run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - run:
-          name: Push image to GCR
+          name: Push image to Dockerhub
           command: |
-            docker tag codeclimate/codeclimate-golint \
-              us.gcr.io/code-climate/codeclimate-golint:b$CIRCLE_BUILD_NUM
-            docker push us.gcr.io/code-climate/codeclimate-golint:b$CIRCLE_BUILD_NUM
+            make release RELEASE_TAG="b$CIRCLE_BUILD_NUM"
+            make release RELEASE_TAG="$(echo $CIRCLE_BRANCH | grep -oP 'channel/\K[\w\-]+')"
       - run: send_webhook
 
 workflows:
