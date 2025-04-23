@@ -19,11 +19,12 @@ The new Qlty plugins system provides key advantages over the older, Docker-based
 
 [Qlty CLI](https://docs.qlty.sh/cli/quickstart) is the fastest linter and auto-formatter for polyglot teams. It is completely free and available for Mac, Windows, and Linux.
 
-  - Install Qlty CLI:
+   - Install Qlty CLI:
 `
 curl https://qlty.sh | sh # Mac or Linux
 `
-or ` <windows install line> `
+or ` powershell -c "iwr https://qlty.sh | iex" # Windows`
+
 
 [Qlty Cloud](https://docs.qlty.sh/cloud/quickstart) is a full code health platform for integrating code quality into development team workflows. It is free for unlimited private contributors.
   - [Try Qlty Cloud today](https://docs.qlty.sh/cloud/quickstart)
